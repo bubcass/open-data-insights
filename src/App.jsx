@@ -47,16 +47,28 @@ export default function App() {
   return (
     <div className="page-shell">
       <main className="page-main">
-        <section
-          className="page-intro"
-          aria-label="Open Data Insights introduction"
-        >
-          <p className="page-intro__eyebrow">Open Data Insights</p>
-          <p className="page-intro__text">
-            Get closer to your Parliament with our interactive visualisations
-            and data-driven storytelling.
-          </p>
-        </section>
+<section
+  className="page-intro"
+  aria-label="Open Data Insights introduction"
+>
+  <p className="page-intro__eyebrow">Open Data Insights</p>
+  <p className="page-intro__text">
+    Get closer to your Parliament with our interactive visualisations
+    and data-driven storytelling.
+  </p>
+  <p className="page-intro__text">
+    Read how we want to bring the work of Parliament closer to people
+    with our open data in our{" "}
+    <a
+      href="https://bubcass.github.io/stor-concept/articles/open-data-insights-20260121/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      position paper
+    </a>
+    .
+  </p>
+</section>
 
         <section
           className="explorer-composition"
