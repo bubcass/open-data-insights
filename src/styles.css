@@ -103,6 +103,18 @@ svg {
   margin-top: 0.65rem;
 }
 
+.page-intro__text a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.page-intro__text a:hover,
+.page-intro__text a:focus-visible {
+  color: #4f4118;
+}
+
 .panel-eyebrow {
   margin: 0 0 0.75rem;
   font-size: 0.8rem;
