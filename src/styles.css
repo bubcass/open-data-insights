@@ -103,16 +103,30 @@ svg {
   margin-top: 0.65rem;
 }
 
-.page-intro__text a {
+.page-intro__link {
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.page-intro__link::after {
+  content: " ↗";
+  font-size: 0.85em;
+  color: var(--ink-muted);
+  transition: color 180ms ease;
+}
+
+.page-intro__link:hover,
+.page-intro__link:focus-visible {
   color: var(--gold);
   text-decoration: underline;
-  text-decoration-thickness: 0.08em;
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
 }
 
-.page-intro__text a:hover,
-.page-intro__text a:focus-visible {
-  color: #4f4118;
+.page-intro__link:hover::after,
+.page-intro__link:focus-visible::after {
+  color: var(--gold);
 }
 
 .panel-eyebrow {

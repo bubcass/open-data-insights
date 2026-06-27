@@ -33,7 +33,7 @@ const explorers = [
     eyebrow: "Election Explorer",
     title: "How Members are elected",
     description:
-      "Discover how votes for candidates are counted and lead TDs and Senators taking their seats in Parliament.",
+      "Discover how votes for candidates are counted and lead TDs and Senators to take their seats in Parliament.",
     href: "https://bubcass.github.io/election-explorer/",
     media: {
       type: "video",
@@ -57,9 +57,10 @@ export default function App() {
             and data-driven storytelling.
           </p>
           <p className="page-intro__text">
-            Read how we want to bring the work of Parliament closer to people
-            with our open data in our{" "}
+            Read how we want to bring the work of Parliament closer to you with
+            our open data in our{" "}
             <a
+              className="page-intro__link"
               href="https://bubcass.github.io/stor-concept/articles/open-data-insights-20260121/"
               target="_blank"
               rel="noreferrer"
