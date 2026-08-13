@@ -59,7 +59,7 @@ const constituencyInsights = [
   },
   {
     id: "spotlights",
-    eyebrow: "Constituency Snapshot",
+    eyebrow: "Constituency Snapshots",
     title: "Local matters in focus",
     description:
       "With specialist insight and a local focus, our curated snapshots take a look at how national issues affect local constituencies.",
