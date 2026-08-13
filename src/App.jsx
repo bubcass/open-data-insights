@@ -125,7 +125,8 @@ export default function App() {
               title="Share"
             >
               <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M7 17 17 7M10 7h7v7" />
+                <path d="M14.5 5.5 19 10l-4.5 4.5" />
+                <path d="M18.5 10H10a5 5 0 0 0-5 5v2" />
               </svg>
             </button>
             <button

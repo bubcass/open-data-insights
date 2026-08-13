@@ -697,14 +697,16 @@ a:focus-visible {
 
   .oireachtas-masthead__title {
     position: absolute;
+    grid-column: 1 / -1;
     left: 50%;
     top: 50%;
     overflow: hidden;
-    max-width: min(9.5rem, 38vw);
-    font-size: 1.05rem;
+    width: max-content;
+    max-width: min(10.75rem, calc(100% - 13rem));
+    font-size: 0.9rem;
     text-align: center;
     text-overflow: ellipsis;
-    white-space: normal;
+    white-space: nowrap;
     transform: translate(-50%, -50%);
   }
 
@@ -772,5 +774,13 @@ a:focus-visible {
 
   .oireachtas-footer__links a {
     font-size: 0.86rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .oireachtas-masthead__title {
+    max-width: calc(100% - 12.5rem);
+    font-size: 0.76rem;
+    white-space: normal;
   }
 }
