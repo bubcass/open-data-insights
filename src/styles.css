@@ -18,6 +18,7 @@
   --page-max: 1100px;
   --focus-ring: rgba(107, 89, 34, 0.18);
   --radius: 4px;
+  --masthead-height: 58px;
   font-family:
     "IBM Plex Sans",
     system-ui,
@@ -27,6 +28,24 @@
     sans-serif;
   background: var(--page-bg);
   color: var(--ink);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #171816;
+  --page-tint: #20211e;
+  --surface: #22231f;
+  --surface-strong: #262721;
+  --ink: #e7e3d8;
+  --ink-soft: #c8c2b5;
+  --ink-muted: #aaa496;
+  --line: #4b4a43;
+  --line-strong: #6a685e;
+  --gold: #d3bf72;
+  --gold-soft: rgba(211, 191, 114, 0.14);
+  --focus-ring: #ead993;
+  --shadow-soft: 0 6px 20px rgba(0, 0, 0, 0.24);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.32);
 }
 
 * {
@@ -62,32 +81,131 @@ svg {
 }
 
 .page-shell {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
 .page-main {
+  flex: 1;
   width: 100%;
 }
 
 .explorer-composition,
 .closing-note,
-.page-intro {
+.page-intro,
+.section-intro,
+.coming-soon,
+.omnibus-intro {
   max-width: var(--page-max);
   margin: 0 auto;
+}
+
+.omnibus-intro {
+  margin-bottom: 2.75rem;
+  color: var(--ink-soft);
+  font-size: clamp(1.12rem, 2vw, 1.3rem);
+  line-height: 1.55;
+}
+
+.oireachtas-masthead {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+  height: var(--masthead-height);
+  background: #3f3e3a;
+  color: #fff;
+}
+
+.oireachtas-masthead__inner {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) auto minmax(160px, 1fr);
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 18px;
+}
+
+.oireachtas-masthead__home {
+  display: inline-flex;
+  justify-self: start;
+  padding: 3px;
+  margin-left: -3px;
+  border-radius: var(--radius);
+}
+
+.oireachtas-masthead__home:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.oireachtas-masthead__logo {
+  width: 118px;
+  height: auto;
+}
+
+.oireachtas-masthead__title {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.15rem, 1.65vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+}
+
+.oireachtas-masthead__actions {
+  display: flex;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  gap: 0.45rem;
+}
+
+.oireachtas-masthead__action {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+}
+
+.oireachtas-masthead__action svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.oireachtas-masthead__action:hover,
+.oireachtas-masthead__action:focus-visible {
+  border-color: rgba(255, 255, 255, 0.88);
+  background: #fff;
+  color: #3f3e3a;
 }
 
 .page-intro {
   padding: 0 0 1.5rem;
 }
 
-.page-intro__eyebrow {
-  margin: 0 0 0.45rem;
-  color: var(--gold);
-  font-size: 0.8rem;
+.section-heading {
+  margin: 0 0 0.7rem;
+  color: var(--ink);
+  font-size: clamp(1.55rem, 2.5vw, 2rem);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .page-intro__text {
@@ -150,7 +268,7 @@ svg {
 }
 
 .page-main {
-  padding: 1.25rem 1.25rem 2.25rem;
+  padding: 2.25rem 1.25rem 2.25rem;
 }
 
 .explorer-composition {
@@ -165,8 +283,8 @@ svg {
   position: relative;
   display: grid;
   height: 100%;
-  min-height: 42rem;
-  grid-template-rows: minmax(21rem, 1fr) auto;
+  min-height: clamp(23rem, 30vw, 27rem);
+  grid-template-rows: 1fr auto;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -208,6 +326,32 @@ svg {
 
 .explorer-panel--elections {
   grid-column: 9 / span 4;
+}
+
+.explorer-composition--two > .explorer-panel {
+  grid-column: span 6;
+  min-height: clamp(23rem, 26vw, 25rem);
+}
+
+.insight-section {
+  margin-top: 4.5rem;
+}
+
+.section-intro {
+  margin-bottom: 1.5rem;
+}
+
+.section-intro__text,
+.coming-soon p {
+  max-width: 58rem;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.coming-soon {
+  padding-top: 3.5rem;
 }
 
 .explorer-panel__art {
@@ -450,6 +594,40 @@ a:focus-visible {
   padding: 3.5rem 0 1rem;
 }
 
+.oireachtas-footer {
+  width: 100%;
+  margin-top: 3rem;
+  padding: 1.5rem max(1.25rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--page-tint) 55%, var(--page-bg));
+  color: var(--ink-soft);
+}
+
+.oireachtas-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem clamp(1.1rem, 3vw, 2.5rem);
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.oireachtas-footer__links a {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+
+.oireachtas-footer__links a:hover,
+.oireachtas-footer__links a:focus-visible {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
 .closing-note p {
   max-width: 42rem;
   margin: 0;
@@ -481,12 +659,57 @@ a:focus-visible {
     grid-column: 1 / -1;
   }
 
+  .explorer-composition--two > .explorer-panel {
+    grid-column: 1 / -1;
+  }
+
   .explorer-panel {
-    min-height: 38rem;
+    min-height: 29rem;
   }
 }
 
 @media (max-width: 560px) {
+  :root {
+    --masthead-height: 52px;
+  }
+
+  .oireachtas-masthead {
+    position: relative;
+  }
+
+  .oireachtas-masthead__inner {
+    position: relative;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding-inline: 12px;
+  }
+
+  .oireachtas-masthead__logo {
+    width: 98px;
+  }
+
+  .oireachtas-masthead__title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: hidden;
+    max-width: min(9.5rem, 38vw);
+    font-size: 1.05rem;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: normal;
+    transform: translate(-50%, -50%);
+  }
+
+  .oireachtas-masthead__actions {
+    gap: 0.35rem;
+  }
+
+  .oireachtas-masthead__action {
+    width: 34px;
+    height: 34px;
+  }
+
   .page-main {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -496,14 +719,18 @@ a:focus-visible {
     padding-bottom: 1.2rem;
   }
 
+  .omnibus-intro {
+    margin-bottom: 2.25rem;
+  }
+
   .panel-description,
   .closing-note p {
     font-size: 0.97rem;
   }
 
   .explorer-panel {
-    min-height: 35rem;
-    grid-template-rows: minmax(17rem, 1fr) auto;
+    min-height: 27rem;
+    grid-template-rows: 1fr auto;
   }
 
   .explorer-panel__art {
@@ -521,5 +748,22 @@ a:focus-visible {
   .explorer-panel__content--media {
     margin: auto 0.75rem 0.75rem;
     padding: 0.9rem 0.95rem 0.95rem;
+  }
+
+  .insight-section {
+    margin-top: 3.5rem;
+  }
+
+  .coming-soon {
+    padding-top: 2.75rem;
+  }
+
+  .oireachtas-footer__links {
+    justify-content: flex-start;
+    gap: 0.55rem 1.25rem;
+  }
+
+  .oireachtas-footer__links a {
+    font-size: 0.86rem;
   }
 }
