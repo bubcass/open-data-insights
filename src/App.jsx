@@ -63,7 +63,7 @@ const constituencyInsights = [
     title: "Local matters in focus",
     description:
       "With specialist insight and a local focus, our curated snapshots take a look at how national issues affect local constituencies.",
-    href: "/constituency-insight/spotlight/",
+    href: "/constituency-insight/spotlight",
     media: {
       type: "image",
       src: `${import.meta.env.BASE_URL}media/road-with-glass.jpg`,
