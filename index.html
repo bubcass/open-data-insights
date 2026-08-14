@@ -8,8 +8,28 @@
       name="description"
       content="Explore the Irish Parliament through interactive data with Open Data Insights."
     />
-    <script type="module" crossorigin src="/open-data-insights/assets/index-C34liiai.js"></script>
-    <link rel="stylesheet" crossorigin href="/open-data-insights/assets/index-LL14wq-F.css">
+    <script>
+      (() => {
+        const key = "oireachtas-insights-theme";
+        const legacyKey = "open-data-insights-theme";
+        try {
+          let theme = localStorage.getItem(key);
+          if (theme !== "dark" && theme !== "light") {
+            theme = localStorage.getItem(legacyKey);
+            if (theme === "dark" || theme === "light") localStorage.setItem(key, theme);
+          }
+          document.documentElement.dataset.theme =
+            theme === "dark" || theme === "light"
+              ? theme
+              : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme =
+            matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/open-data-insights/assets/index-BgribJcl.js"></script>
+    <link rel="stylesheet" crossorigin href="/open-data-insights/assets/index-D__2b8np.css">
   </head>
   <body>
     <div id="root"></div>
