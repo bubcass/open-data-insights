@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 
+const THEME_STORAGE_KEY = "oireachtas-insights-theme";
+const LEGACY_THEME_STORAGE_KEY = "open-data-insights-theme";
+
 const explorers = [
   {
     id: "vote",
@@ -72,22 +75,49 @@ const constituencyInsights = [
   },
 ];
 
+function getInitialTheme() {
+  try {
+    let saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved !== "dark" && saved !== "light") {
+      saved = window.localStorage.getItem(LEGACY_THEME_STORAGE_KEY);
+      if (saved === "dark" || saved === "light") {
+        window.localStorage.setItem(THEME_STORAGE_KEY, saved);
+      }
+    }
+    if (saved === "dark" || saved === "light") return saved;
+  } catch {}
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 export default function App() {
-  const [theme, setTheme] = useState(() =>
-    window.localStorage.getItem("open-data-insights-theme") === "dark"
-      ? "dark"
-      : "light",
-  );
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("open-data-insights-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const syncTheme = (event) => {
+      if (event.key === THEME_STORAGE_KEY && (event.newValue === "dark" || event.newValue === "light")) {
+        setTheme(event.newValue);
+      }
+    };
+    window.addEventListener("storage", syncTheme);
+    return () => window.removeEventListener("storage", syncTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const next = current === "dark" ? "light" : "dark";
+      try { window.localStorage.setItem(THEME_STORAGE_KEY, next); } catch {}
+      return next;
+    });
+  };
 
   const sharePage = async () => {
     const shareData = {
-      title: "Open Data Insights",
-      text: "Explore the Irish Parliament through interactive data with Open Data Insights.",
+      title: "Insights",
+      text: "Explore parliamentary visual data from the Houses of the Oireachtas.",
       url: window.location.href,
     };
 
@@ -115,7 +145,34 @@ export default function App() {
               alt=""
             />
           </a>
-          <h1 className="oireachtas-masthead__title">Oireachtas Insights</h1>
+          <h1 className="oireachtas-masthead__title">
+            <span className="oireachtas-masthead__brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 64 28" focusable="false">
+                <path d="M12 9H26L32 5L38 9H52" />
+                <line x1="12" y1="10.5" x2="52" y2="10.5" />
+                <rect x="12" y="10.5" width="40" height="13.5" />
+                <line x1="27.5" y1="10.5" x2="27.5" y2="24" />
+                <line x1="30" y1="10.5" x2="30" y2="24" />
+                <line x1="34" y1="10.5" x2="34" y2="24" />
+                <line x1="36.5" y1="10.5" x2="36.5" y2="24" />
+                <line x1="26.5" y1="24" x2="37.5" y2="24" />
+                {[
+                  [30.7, 18.2, 2.6, 5.8],
+                  [15, 13, 1.7, 1.7], [19, 13, 1.7, 1.7], [23, 13, 1.7, 1.7],
+                  [39.3, 13, 1.7, 1.7], [43.3, 13, 1.7, 1.7], [47.3, 13, 1.7, 1.7],
+                  [15, 18, 1.7, 1.7], [19, 18, 1.7, 1.7], [23, 18, 1.7, 1.7],
+                  [39.3, 18, 1.7, 1.7], [43.3, 18, 1.7, 1.7], [47.3, 18, 1.7, 1.7],
+                ].map(([x, y, width, height], index) => (
+                  <rect key={index} className="oireachtas-masthead__brand-mark-fill" x={x} y={y} width={width} height={height} />
+                ))}
+                <line x1="12" y1="24" x2="52" y2="24" />
+              </svg>
+            </span>
+            <span className="oireachtas-masthead__brand-copy">
+              <span className="oireachtas-masthead__brand-title">Insights</span>
+              <span className="oireachtas-masthead__brand-tagline">Parliamentary visual data</span>
+            </span>
+          </h1>
           <div className="oireachtas-masthead__actions">
             <button
               className="oireachtas-masthead__action"
@@ -132,9 +189,9 @@ export default function App() {
             <button
               className="oireachtas-masthead__action"
               type="button"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              onClick={toggleTheme}
+              aria-label={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
+              title={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
             >
               {theme === "dark" ? (
                 <svg aria-hidden="true" viewBox="0 0 24 24">
