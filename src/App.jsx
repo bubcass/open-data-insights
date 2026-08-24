@@ -79,9 +79,9 @@ const pboInsights = [
   {
     id: "tax-revenues",
     eyebrow: "PBO Insights",
-    title: "Where does Ireland's tax revenue come from?",
+    title: "Ireland's tax revenue",
     description:
-      "Explore Ireland's changing tax base and compare the counties and economic sectors where receipts are recorded.",
+      "Explore the breakdown of Ireland's tax receipts and how shifts over time can be a useful indicator of tax base stability.",
     href: "https://bubcass.github.io/pbo-insight-tax-revenue/",
     media: {
       type: "image",
@@ -107,6 +107,7 @@ function getInitialTheme() {
 
 export default function App() {
   const [theme, setTheme] = useState(getInitialTheme);
+  const [shareStatus, setShareStatus] = useState("");
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -137,12 +138,19 @@ export default function App() {
       url: window.location.href,
     };
 
-    if (navigator.share) {
-      await navigator.share(shareData).catch(() => {});
-      return;
-    }
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
 
-    await navigator.clipboard?.writeText(shareData.url);
+      await copyText(shareData.url);
+      setShareStatus("Link copied");
+      window.setTimeout(() => setShareStatus(""), 2_000);
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+      setShareStatus("Unable to copy link");
+    }
   };
 
   return (
@@ -191,21 +199,28 @@ export default function App() {
           </h1>
           <div className="oireachtas-masthead__actions">
             <button
-              className="oireachtas-masthead__action"
+              className={`oireachtas-masthead__action${shareStatus === "Link copied" ? " is-copied" : ""}`}
               type="button"
               onClick={sharePage}
-              aria-label="Share Open Data Insights"
-              title="Share"
+              aria-label={shareStatus || "Share Open Data Insights"}
+              title={shareStatus || "Share"}
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M14.5 5.5 19 10l-4.5 4.5" />
-                <path d="M18.5 10H10a5 5 0 0 0-5 5v2" />
-              </svg>
+              {shareStatus === "Link copied" ? (
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m7 12.5 3.2 3.2L17.5 8" />
+                </svg>
+              ) : (
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M14.5 5.5 19 10l-4.5 4.5" />
+                  <path d="M18.5 10H10a5 5 0 0 0-5 5v2" />
+                </svg>
+              )}
             </button>
             <button
               className="oireachtas-masthead__action"
               type="button"
               onClick={toggleTheme}
+              aria-pressed={theme === "dark"}
               aria-label={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
               title={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
             >
@@ -220,6 +235,9 @@ export default function App() {
                 </svg>
               )}
             </button>
+            <span className="oireachtas-masthead__status" aria-live="polite">
+              {shareStatus}
+            </span>
           </div>
         </div>
       </header>
@@ -273,7 +291,7 @@ export default function App() {
           <div className="section-intro">
             <h2 className="section-heading" id="pbo-heading">PBO Insights</h2>
             <p className="section-intro__text">
-              Independent analysis of Ireland's public finances from the Parliamentary Budget Office.
+              Independent and specialist insight through economic and budgetary intelligence.
             </p>
           </div>
           <CardGrid items={pboInsights} label="PBO Insights collection" columns="one" />
@@ -287,6 +305,24 @@ export default function App() {
       <OireachtasFooter />
     </div>
   );
+}
+
+async function copyText(value) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const input = document.createElement("textarea");
+  input.value = value;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.appendChild(input);
+  input.select();
+  const copied = document.execCommand("copy");
+  input.remove();
+  if (!copied) throw new Error("Copy command failed");
 }
 
 function CardGrid({ items, label, columns = "three" }) {
