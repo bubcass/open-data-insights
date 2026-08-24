@@ -75,6 +75,22 @@ const constituencyInsights = [
   },
 ];
 
+const pboInsights = [
+  {
+    id: "tax-revenues",
+    eyebrow: "PBO Insights",
+    title: "Where does Ireland's tax revenue come from?",
+    description:
+      "Explore Ireland's changing tax base and compare the counties and economic sectors where receipts are recorded.",
+    href: "https://bubcass.github.io/pbo-insight-tax-revenue/",
+    media: {
+      type: "image",
+      src: `${import.meta.env.BASE_URL}media/tax-revenue-hero.jpg`,
+      alt: "Euro banknotes under a magnifying glass beside a calculator",
+    },
+  },
+];
+
 function getInitialTheme() {
   try {
     let saved = window.localStorage.getItem(THEME_STORAGE_KEY);
@@ -253,9 +269,14 @@ export default function App() {
           />
         </section>
 
-        <section className="coming-soon" aria-labelledby="pbo-heading">
-          <h2 className="section-heading" id="pbo-heading">PBO Insights</h2>
-          <p>New insights from the Parliamentary Budget Office are coming soon.</p>
+        <section className="insight-section" aria-labelledby="pbo-heading">
+          <div className="section-intro">
+            <h2 className="section-heading" id="pbo-heading">PBO Insights</h2>
+            <p className="section-intro__text">
+              Independent analysis of Ireland's public finances from the Parliamentary Budget Office.
+            </p>
+          </div>
+          <CardGrid items={pboInsights} label="PBO Insights collection" columns="one" />
         </section>
 
         <section className="coming-soon" aria-labelledby="lrs-heading">

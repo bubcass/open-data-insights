@@ -377,6 +377,10 @@ svg {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.explorer-composition--one {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .insight-section {
   margin-top: 4.5rem;
 }
