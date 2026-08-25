@@ -16,6 +16,7 @@
     "security:runtime": "npm audit --omit=dev --audit-level=high",
     "portfolio:status": "node scripts/commit-portfolio.mjs",
     "portfolio:commit": "node scripts/commit-portfolio.mjs --commit",
+    "portfolio:data-policy": "node scripts/check-framework-browser-data.mjs",
     "verify:build": "node scripts/verify-build.mjs",
     "verify": "npm run build && npm run verify:build && npm run security:runtime"
   },
