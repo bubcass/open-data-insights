@@ -3,6 +3,7 @@ import "./styles.css";
 
 const THEME_STORAGE_KEY = "oireachtas-insights-theme";
 const LEGACY_THEME_STORAGE_KEY = "open-data-insights-theme";
+const PROMOTED_EXPLORER_ID = "pq";
 
 const explorers = [
   {
@@ -13,22 +14,24 @@ const explorers = [
       "Take a look at how your public representatives vote on the questions that matter.",
     href: "https://bubcass.github.io/chamber-vote-poc/?chamber=dail",
     media: {
-      type: "video",
-      src: `${import.meta.env.BASE_URL}media/vote-hero.mp4`,
-      ariaLabel: "Parliamentary chamber vote preview",
+      type: "image",
+      src: `${import.meta.env.BASE_URL}media/hero-divisions.png`,
+      alt: "Division result displayed across the Dáil chamber seating plan",
     },
   },
   {
     id: "pq",
-    eyebrow: "PQ Explorer",
-    title: "Parliamentary Questions",
-    description:
-      "Explore how TDs hold the Government to account by asking questions about policies and services",
+    eyebrow: "Featured Insight",
+    title: "PQ Explorer",
+    description: [
+      "Parliamentary questions are an intrinsic part of Parliament and each year tens of thousands of questions are asked by Members.",
+      "Explore how TDs hold the Government to account by asking questions about policies and services.",
+    ],
     href: "https://bubcass.github.io/pq-explorer/",
     media: {
-      type: "image",
-      src: `${import.meta.env.BASE_URL}media/bound-volume.jpeg`,
-      alt: "Historic bound volume of Dail proceedings",
+      type: "video",
+      src: `${import.meta.env.BASE_URL}media/PQs.mp4`,
+      ariaLabel: "Parliamentary Questions Explorer preview",
     },
   },
   {
@@ -45,6 +48,9 @@ const explorers = [
     },
   },
 ];
+
+const promotedExplorer = explorers.find(({ id }) => id === PROMOTED_EXPLORER_ID);
+const productExplorers = explorers.filter(({ id }) => id !== PROMOTED_EXPLORER_ID);
 
 const constituencyInsights = [
   {
@@ -155,7 +161,7 @@ export default function App() {
 
   return (
     <div className="page-shell">
-      <header className="oireachtas-masthead">
+      <header className="oireachtas-masthead oireachtas-masthead--index">
         <div className="oireachtas-masthead__inner">
           <a
             className="oireachtas-masthead__home"
@@ -243,19 +249,18 @@ export default function App() {
       </header>
       <main className="page-main">
         <p className="omnibus-intro">
-          With research from across the Houses of the Oireachtas, our data-driven insights inform citizens and public representatives by bringing together parliamentary activity, election results and constituency
-          analysis.
+          With research from across the Houses of the Oireachtas, our data-driven insights inform citizens and public representatives by bringing together the work of parliament, constituency information and in-depth analysis.
         </p>
+
+        <PortfolioFeature explorer={promotedExplorer} />
+
         <section
-          className="page-intro"
+          className="page-intro page-intro--products"
           aria-label="Open Data Insights introduction"
         >
           <h2 className="section-heading">Open Data Insights</h2>
           <p className="page-intro__text">
-            Get closer to the work being done in Parliament with our interactive visualisations and data-driven storytelling.
-          </p>
-          <p className="page-intro__text">
-            Read how we want to bring the work of Parliament closer to you with
+            Get closer to the work being done in Parliament with our interactive visualisations and data-driven storytelling. Read how we want to bring the work of Parliament closer to you with
             our open data in our{" "}
             <a
               className="page-intro__link"
@@ -269,7 +274,11 @@ export default function App() {
           </p>
         </section>
 
-        <CardGrid items={explorers} label="Open Data explorer collection" />
+        <CardGrid
+          items={productExplorers}
+          label="Open Data Insights products"
+          columns="two"
+        />
 
         <section className="insight-section" aria-labelledby="constituency-heading">
           <div className="section-intro">
@@ -325,6 +334,36 @@ async function copyText(value) {
   if (!copied) throw new Error("Copy command failed");
 }
 
+function PortfolioFeature({ explorer }) {
+  const descriptionParagraphs = Array.isArray(explorer.description)
+    ? explorer.description
+    : [explorer.description];
+
+  return (
+    <a
+      className={`explorer-feature explorer-panel--${explorer.id}`}
+      href={explorer.href}
+    >
+      <div className="explorer-feature__media">
+        <CardMedia media={explorer.media} />
+      </div>
+      <div className="explorer-feature__content">
+        <p className="panel-eyebrow">{explorer.eyebrow}</p>
+        <h3 className="explorer-feature__title">{explorer.title}</h3>
+        <div className="explorer-feature__description">
+          {descriptionParagraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+        <span className="panel-link">
+          <span>Explore</span>
+          <span className="panel-link__arrow" aria-hidden="true">→</span>
+        </span>
+      </div>
+    </a>
+  );
+}
+
 function CardGrid({ items, label, columns = "three" }) {
   return (
     <section className={`explorer-composition explorer-composition--${columns}`} aria-label={label}>
@@ -378,7 +417,7 @@ function OireachtasFooter() {
 
 function CardMedia({ media }) {
   if (media.type === "image") {
-    return <img className="panel-media" src={media.src} alt="" />;
+    return <img className="panel-media" src={media.src} alt={media.alt ?? ""} />;
   }
 
   if (media.type === "video") {

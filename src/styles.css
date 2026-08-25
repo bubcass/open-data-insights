@@ -106,6 +106,7 @@ svg {
 }
 
 .explorer-composition,
+.explorer-feature,
 .closing-note,
 .page-intro,
 .section-intro,
@@ -301,6 +302,33 @@ svg {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+@media (min-width: 561px) {
+  .oireachtas-masthead--index {
+    --masthead-height: 81px;
+  }
+
+  .oireachtas-masthead--index .oireachtas-masthead__title {
+    gap: 0.93rem;
+  }
+
+  .oireachtas-masthead--index .oireachtas-masthead__brand-mark {
+    width: 63px;
+    height: 27px;
+  }
+
+  .oireachtas-masthead--index .oireachtas-masthead__brand-copy {
+    gap: 0.12rem;
+  }
+
+  .oireachtas-masthead--index .oireachtas-masthead__brand-title {
+    font-size: 1.44rem;
+  }
+
+  .oireachtas-masthead--index .oireachtas-masthead__brand-tagline {
+    font-size: 1.02rem;
+  }
 }
 
 /* Dormant chamber explorer controls use the shared Insights interaction language. */
@@ -653,6 +681,10 @@ svg {
   padding: 0 0 1.5rem;
 }
 
+.page-intro--products {
+  margin-top: 3.75rem;
+}
+
 .section-heading {
   margin: 0 0 1rem;
   color: var(--ink);
@@ -740,6 +772,110 @@ svg {
   align-items: stretch;
 }
 
+.explorer-feature {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  height: clamp(300px, 29vw, 320px);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.explorer-feature:hover,
+.explorer-feature:focus-visible {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.explorer-feature:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.explorer-feature__media {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #263f3f;
+}
+
+.explorer-feature__media .panel-media {
+  position: absolute;
+  inset: 0;
+}
+
+.explorer-feature__media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 68%, rgba(0, 0, 0, 0.24));
+  content: "";
+  pointer-events: none;
+}
+
+.explorer-feature__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem clamp(2rem, 4vw, 3.25rem);
+  background: transparent;
+  text-align: left;
+}
+
+.explorer-feature .panel-eyebrow {
+  color: var(--gold);
+}
+
+.explorer-feature__title {
+  max-width: 20ch;
+  margin: 0 0 0.75rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.explorer-feature__description {
+  max-width: 32rem;
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.explorer-feature__description p {
+  margin: 0;
+}
+
+.explorer-feature__description p + p {
+  margin-top: 0.55rem;
+}
+
+.explorer-feature .panel-link {
+  margin-top: 0;
+  color: var(--gold);
+}
+
+.explorer-feature:hover .panel-link__arrow,
+.explorer-feature:focus-visible .panel-link__arrow {
+  transform: translateX(4px);
+}
+
 .explorer-panel {
   display: grid;
   grid-template-rows: 190px 1fr;
@@ -781,7 +917,7 @@ svg {
 }
 
 .insight-section {
-  margin-top: 4.5rem;
+  margin-top: 3.75rem;
 }
 
 .section-intro {
@@ -798,7 +934,7 @@ svg {
 }
 
 .coming-soon {
-  padding-top: 3.5rem;
+  padding-top: 3rem;
 }
 
 .explorer-panel__art {
@@ -949,6 +1085,29 @@ a:focus-visible {
   }
 }
 
+@media (max-width: 900px) {
+  .explorer-feature {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .explorer-feature__media {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .explorer-feature__content {
+    min-height: 0;
+    padding: 2.5rem 1.5rem 2.75rem;
+  }
+
+  .explorer-feature__title {
+    font-size: clamp(1.5rem, 6vw, 1.75rem);
+  }
+}
+
 @media (max-width: 680px) {
   .explorer-composition {
     grid-template-columns: 1fr;
@@ -1047,11 +1206,15 @@ a:focus-visible {
   }
 
   .insight-section {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
+  }
+
+  .page-intro--products {
+    margin-top: 3rem;
   }
 
   .coming-soon {
-    padding-top: 2.75rem;
+    padding-top: 2.5rem;
   }
 
   .oireachtas-footer__links {
@@ -1080,6 +1243,7 @@ a:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .oireachtas-masthead__action,
+  .explorer-feature,
   .explorer-panel,
   .panel-link,
   .panel-link__arrow,
