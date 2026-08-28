@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./styles.css";
 
 const THEME_STORAGE_KEY = "oireachtas-insights-theme";
@@ -15,7 +15,7 @@ const explorers = [
     href: "https://bubcass.github.io/chamber-vote-poc/?chamber=dail",
     media: {
       type: "image",
-      src: `${import.meta.env.BASE_URL}media/hero-divisions.png`,
+      src: `${import.meta.env.BASE_URL}media/vote-index.webp`,
       alt: "Division result displayed across the Dáil chamber seating plan",
     },
   },
@@ -30,7 +30,8 @@ const explorers = [
     href: "https://bubcass.github.io/pq-explorer/",
     media: {
       type: "video",
-      src: `${import.meta.env.BASE_URL}media/PQs.mp4`,
+      src: `${import.meta.env.BASE_URL}media/pq-index.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/pq-index.jpg`,
       ariaLabel: "Parliamentary Questions Explorer preview",
     },
   },
@@ -43,7 +44,8 @@ const explorers = [
     href: "https://bubcass.github.io/election-explorer/",
     media: {
       type: "video",
-      src: `${import.meta.env.BASE_URL}media/election.mp4`,
+      src: `${import.meta.env.BASE_URL}media/election-index.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/election-index.jpg`,
       ariaLabel: "Election visualisation preview",
     },
   },
@@ -62,7 +64,8 @@ const constituencyInsights = [
     href: "/constituency-insight/",
     media: {
       type: "video",
-      src: `${import.meta.env.BASE_URL}media/people-walking-in-blurred.mp4`,
+      src: `${import.meta.env.BASE_URL}media/constituency-index.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/constituency-index.jpg`,
       ariaLabel: "People walking through a public space",
     },
   },
@@ -75,7 +78,7 @@ const constituencyInsights = [
     href: "/constituency-insight/spotlight",
     media: {
       type: "image",
-      src: `${import.meta.env.BASE_URL}media/road-with-glass.jpg`,
+      src: `${import.meta.env.BASE_URL}media/spotlights-index.jpg`,
       alt: "A road viewed through a car windscreen",
     },
   },
@@ -91,7 +94,7 @@ const pboInsights = [
     href: "https://bubcass.github.io/pbo-insight-tax-revenue/",
     media: {
       type: "image",
-      src: `${import.meta.env.BASE_URL}media/tax-revenue-hero.jpg`,
+      src: `${import.meta.env.BASE_URL}media/tax-index.jpg`,
       alt: "Euro banknotes under a magnifying glass beside a calculator",
     },
   },
@@ -349,7 +352,7 @@ function PortfolioFeature({ explorer }) {
       </div>
       <div className="explorer-feature__content">
         <p className="panel-eyebrow">{explorer.eyebrow}</p>
-        <h3 className="explorer-feature__title">{explorer.title}</h3>
+        <h2 className="explorer-feature__title">{explorer.title}</h2>
         <div className="explorer-feature__description">
           {descriptionParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
@@ -416,21 +419,81 @@ function OireachtasFooter() {
 }
 
 function CardMedia({ media }) {
+  const mediaRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (media.type !== "video") return undefined;
+
+    const video = mediaRef.current;
+    if (!video) return undefined;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = navigator.connection?.saveData === true;
+
+    if (reduceMotion || saveData) {
+      setLoaded(true);
+      return () => video.pause();
+    }
+
+    const activate = () => {
+      if (!video.src) {
+        video.src = media.src;
+        video.load();
+      }
+      video.play().catch(() => {});
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      activate();
+      return () => video.pause();
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) activate();
+      else video.pause();
+    }, {rootMargin: "240px 0px", threshold: 0.05});
+
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, [media.src, media.type]);
+
   if (media.type === "image") {
-    return <img className="panel-media" src={media.src} alt={media.alt ?? ""} />;
+    return (
+      <div className={`panel-media-frame${loaded ? " is-loaded" : ""}`} aria-busy={!loaded}>
+        <img
+          ref={mediaRef}
+          className="panel-media"
+          src={media.src}
+          alt={media.alt ?? ""}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+        />
+      </div>
+    );
   }
 
   if (media.type === "video") {
     return (
-      <video
-        className="panel-media"
-        src={media.src}
-        aria-hidden="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <div className={`panel-media-frame${loaded ? " is-loaded" : ""}`} aria-busy={!loaded}>
+        <video
+          ref={mediaRef}
+          className="panel-media"
+          poster={media.poster}
+          preload="none"
+          aria-hidden="true"
+          muted
+          loop
+          playsInline
+          onLoadedData={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+        />
+      </div>
     );
   }
 

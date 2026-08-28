@@ -820,6 +820,7 @@ svg {
 
 .explorer-feature__media::after {
   position: absolute;
+  z-index: 2;
   inset: 0;
   background: linear-gradient(to right, transparent 68%, rgba(0, 0, 0, 0.24));
   content: "";
@@ -950,6 +951,7 @@ svg {
 
 .explorer-panel__art--media::after {
   position: absolute;
+  z-index: 2;
   inset: 0;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.14), transparent 55%);
   content: "";
@@ -1020,13 +1022,53 @@ a:focus-visible {
   border-radius: 4px;
 }
 
+.panel-media-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--page-tint);
+}
+
+.panel-media-frame::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  animation: panel-media-shimmer 1.4s ease-in-out infinite;
+  transition: opacity 180ms ease;
+}
+
+.panel-media-frame.is-loaded::before {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes panel-media-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .panel-media {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 240ms ease, transform 0.4s ease;
+}
+
+.panel-media-frame.is-loaded .panel-media {
   opacity: 0.88;
-  transition: transform 0.4s ease;
 }
 
 .explorer-panel:hover .panel-media,
@@ -1249,6 +1291,10 @@ a:focus-visible {
   .panel-link__arrow,
   .panel-media {
     transition: none;
+  }
+
+  .panel-media-frame::before {
+    animation: none;
   }
 
   .vote-picker__trigger,
