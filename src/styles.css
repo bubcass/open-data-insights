@@ -238,7 +238,13 @@ svg {
   grid-row: 1;
   justify-self: end;
   gap: 0.45rem;
+  position: relative;
 }
+
+.oireachtas-masthead__menu { background: var(--surface-strong); border: 1px solid var(--line); border-radius: 0.75rem; box-shadow: 0 14px 38px rgba(32, 31, 28, .2); display: grid; padding: .4rem; position: absolute; right: 0; top: calc(100% + .5rem); width: 11rem; z-index: 20; }
+.oireachtas-masthead__menu-action { align-items: center; appearance: none; background: transparent; border: 0; border-radius: .45rem; color: var(--ink); cursor: pointer; display: flex; font: inherit; gap: .65rem; min-height: 42px; padding: .55rem .7rem; text-align: left; width: 100%; }
+.oireachtas-masthead__menu-action:hover, .oireachtas-masthead__menu-action:focus-visible { background: var(--page-tint); }
+.oireachtas-masthead__menu-action svg { fill: none; height: 1.15rem; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.75; width: 1.15rem; }
 
 .oireachtas-masthead__action {
   display: inline-grid;

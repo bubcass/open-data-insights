@@ -117,6 +117,7 @@ function getInitialTheme() {
 export default function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [shareStatus, setShareStatus] = useState("");
+  const [actionsOpen, setActionsOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -207,10 +208,14 @@ export default function App() {
             </span>
           </h1>
           <div className="oireachtas-masthead__actions">
+            <button className="oireachtas-masthead__action oireachtas-masthead__more" type="button" onClick={() => setActionsOpen((open) => !open)} aria-expanded={actionsOpen} aria-controls="insights-masthead-actions" aria-label="More page actions" title="More page actions">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" /></svg>
+            </button>
+            {actionsOpen && <div id="insights-masthead-actions" className="oireachtas-masthead__menu">
             <button
-              className={`oireachtas-masthead__action${shareStatus === "Link copied" ? " is-copied" : ""}`}
+              className={`oireachtas-masthead__menu-action${shareStatus === "Link copied" ? " is-copied" : ""}`}
               type="button"
-              onClick={sharePage}
+              onClick={() => { sharePage(); setActionsOpen(false); }}
               aria-label={shareStatus || "Share Open Data Insights"}
               title={shareStatus || "Share"}
             >
@@ -224,11 +229,12 @@ export default function App() {
                   <path d="M18.5 10H10a5 5 0 0 0-5 5v2" />
                 </svg>
               )}
+              <span>{shareStatus === "Link copied" ? "Link copied" : "Share"}</span>
             </button>
             <button
-              className="oireachtas-masthead__action"
+              className="oireachtas-masthead__menu-action"
               type="button"
-              onClick={toggleTheme}
+              onClick={() => { toggleTheme(); setActionsOpen(false); }}
               aria-pressed={theme === "dark"}
               aria-label={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
               title={`Use ${theme === "dark" ? "light" : "dark"} mode across Insights`}
@@ -243,7 +249,9 @@ export default function App() {
                   <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z" />
                 </svg>
               )}
+              <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
             </button>
+            </div>}
             <span className="oireachtas-masthead__status" aria-live="polite">
               {shareStatus}
             </span>
