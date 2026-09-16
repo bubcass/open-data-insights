@@ -87,7 +87,7 @@ const constituencyInsights = [
 const pboInsights = [
   {
     id: "tax-revenues",
-    eyebrow: "PBO Insights",
+    eyebrow: "Latest Insight",
     title: "Ireland's tax revenue",
     description:
       "Explore the breakdown of Ireland's tax receipts and how shifts over time can be a useful indicator of tax base stability.",
@@ -96,6 +96,20 @@ const pboInsights = [
       type: "image",
       src: `${import.meta.env.BASE_URL}media/tax-index.jpg`,
       alt: "Euro banknotes under a magnifying glass beside a calculator",
+    },
+  },
+  {
+    id: "sports-funding",
+    eyebrow: "Insight",
+    title: "Sports funding",
+    description:
+      "Explore how funding for sports facilities and equipment has been allocated across constituencies.",
+    href: "/constituency-insight/spotlight/sports-funding",
+    media: {
+      type: "video",
+      src: `${import.meta.env.BASE_URL}media/sports-funding-index.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/sports-funding-index.jpg`,
+      ariaLabel: "Tennis player on an outdoor court",
     },
   },
 ];
