@@ -201,8 +201,8 @@ export default function App() {
             </span>
           </h1>
           <div className="oireachtas-masthead__actions">
-            <button className="oireachtas-masthead__action oireachtas-masthead__more" type="button" onClick={() => setActionsOpen((open) => !open)} aria-expanded={actionsOpen} aria-controls="insights-masthead-actions" aria-label="More page actions" title="More page actions">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" /></svg>
+            <button className="oireachtas-masthead__action oireachtas-masthead__more" type="button" onClick={() => setActionsOpen((open) => !open)} aria-expanded={actionsOpen} aria-controls="insights-masthead-actions" aria-label="Page menu" title="Page menu">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14" /></svg>
             </button>
             {actionsOpen && <div id="insights-masthead-actions" className="oireachtas-masthead__menu">
             <button
