@@ -194,7 +194,7 @@ export default function App() {
             />
           </a>
           <h1 className="oireachtas-masthead__title">
-            <span className="oireachtas-masthead__brand-mark" aria-hidden="true"><svg viewBox="0 0 1092 526" focusable="false"><use href={`${import.meta.env.BASE_URL}media/insights-house.svg#house-lockup`} fill="currentColor" /></svg></span>
+            <span className="oireachtas-masthead__brand-mark" aria-hidden="true"><svg viewBox="0 0 1092 526" focusable="false"><use href={`${import.meta.env.BASE_URL}media/insights-house.svg?canonical=2#house-lockup`} fill="currentColor" /></svg></span>
             <span className="oireachtas-masthead__brand-copy">
               <span className="oireachtas-masthead__brand-title">Insights</span>
               <span className="oireachtas-masthead__brand-tagline">Parliamentary visual data</span>
