@@ -86,8 +86,22 @@ const constituencyInsights = [
 
 const pboInsights = [
   {
-    id: "tax-revenues",
+    id: "debt-sustainability",
     eyebrow: "Latest Insight",
+    title: "Debt sustainability",
+    description:
+      "Explore how economic growth, government balances and interest spending shape Ireland's debt position over time.",
+    href: "https://bubcass.github.io/pbo-insight-debt-sustainability/",
+    media: {
+      type: "video",
+      src: `${import.meta.env.BASE_URL}media/debt-sustainability-index.mp4`,
+      poster: `${import.meta.env.BASE_URL}media/tax-index.jpg`,
+      ariaLabel: "Debt sustainability analysis preview",
+    },
+  },
+  {
+    id: "tax-revenues",
+    eyebrow: "Insight",
     title: "Ireland's tax revenue",
     description:
       "Explore the breakdown of Ireland's tax receipts and how shifts over time can be a useful indicator of tax base stability.",
@@ -307,7 +321,11 @@ export default function App() {
               Independent and specialist insight through economic and budgetary intelligence.
             </p>
           </div>
-          <CardGrid items={pboInsights} label="PBO Insights collection" columns="one" />
+          <CardGrid
+            items={pboInsights}
+            label="PBO Insights collection"
+            columns="carousel"
+          />
         </section>
 
         <section className="coming-soon" aria-labelledby="lrs-heading">
@@ -369,30 +387,54 @@ function PortfolioFeature({ explorer }) {
 }
 
 function CardGrid({ items, label, columns = "three" }) {
+  const carouselRef = useRef(null);
+  const isCarousel = columns === "carousel";
+
+  const scrollCarousel = (direction) => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+    carousel.scrollBy({ left: direction * carousel.clientWidth * 0.82, behavior: "smooth" });
+  };
+
   return (
-    <section className={`explorer-composition explorer-composition--${columns}`} aria-label={label}>
-      {items.map((explorer) => (
-        <a
-          key={explorer.id}
-          className={`explorer-panel explorer-panel--${explorer.id}${
-            explorer.media ? " explorer-panel--media" : ""
-          }`}
-          href={explorer.href}
-        >
-          <div className="explorer-panel__art explorer-panel__art--media">
-            <CardMedia media={explorer.media} />
-          </div>
-          <div className="explorer-panel__content explorer-panel__content--media">
-            <p className="panel-eyebrow">{explorer.eyebrow}</p>
-            <h3 className="panel-title">{explorer.title}</h3>
-            <p className="panel-description">{explorer.description}</p>
-            <span className="panel-link">
-              <span>Explore</span>
-              <span className="panel-link__arrow" aria-hidden="true">→</span>
-            </span>
-          </div>
-        </a>
-      ))}
+    <section className={isCarousel ? "explorer-carousel" : ""} aria-label={label}>
+      <div
+        ref={isCarousel ? carouselRef : null}
+        className={`explorer-composition explorer-composition--${columns}`}
+      >
+        {items.map((explorer) => (
+          <a
+            key={explorer.id}
+            className={`explorer-panel explorer-panel--${explorer.id}${
+              explorer.media ? " explorer-panel--media" : ""
+            }`}
+            href={explorer.href}
+          >
+            <div className="explorer-panel__art explorer-panel__art--media">
+              <CardMedia media={explorer.media} />
+            </div>
+            <div className="explorer-panel__content explorer-panel__content--media">
+              <p className="panel-eyebrow">{explorer.eyebrow}</p>
+              <h3 className="panel-title">{explorer.title}</h3>
+              <p className="panel-description">{explorer.description}</p>
+              <span className="panel-link">
+                <span>Explore</span>
+                <span className="panel-link__arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+      {isCarousel && (
+        <div className="explorer-carousel__controls" aria-label={`${label} carousel controls`}>
+          <button type="button" onClick={() => scrollCarousel(-1)} aria-label={`Show previous ${label}`}>
+            <span aria-hidden="true">←</span>
+          </button>
+          <button type="button" onClick={() => scrollCarousel(1)} aria-label={`Show more ${label}`}>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      )}
     </section>
   );
 }

@@ -927,6 +927,62 @@ svg {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.explorer-carousel {
+  position: relative;
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+.explorer-composition.explorer-composition--carousel {
+  display: flex;
+  overflow-x: auto;
+  padding: 3px 3px 1rem;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 3px;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.explorer-composition--carousel .explorer-panel {
+  flex: 0 0 calc((100% - 2.5rem) / 2.5);
+  scroll-snap-align: start;
+}
+
+.explorer-carousel__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+}
+
+.explorer-carousel__controls button {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid var(--button-border);
+  border-radius: 50%;
+  background: var(--surface-strong);
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.explorer-carousel__controls button:hover,
+.explorer-carousel__controls button:focus-visible {
+  background: var(--page-tint);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.explorer-carousel__controls button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 .insight-section {
   margin-top: 3.75rem;
 }
@@ -1167,6 +1223,14 @@ a:focus-visible {
 
   .explorer-panel {
     min-height: 0;
+  }
+
+  .explorer-composition.explorer-composition--carousel {
+    display: flex;
+  }
+
+  .explorer-composition--carousel .explorer-panel {
+    flex-basis: min(84%, 350px);
   }
 }
 
