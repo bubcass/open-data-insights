@@ -427,11 +427,11 @@ function CardGrid({ items, label, columns = "three" }) {
       </div>
       {isCarousel && (
         <div className="explorer-carousel__controls" aria-label={`${label} carousel controls`}>
-          <button type="button" onClick={() => scrollCarousel(-1)} aria-label={`Show previous ${label}`}>
-            <span aria-hidden="true">←</span>
+          <button className="explorer-carousel__previous" type="button" onClick={() => scrollCarousel(-1)} aria-label={`Show previous ${label}`}>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m14.5 4.5-7.5 7.5 7.5 7.5" /></svg>
           </button>
-          <button type="button" onClick={() => scrollCarousel(1)} aria-label={`Show more ${label}`}>
-            <span aria-hidden="true">→</span>
+          <button className="explorer-carousel__next" type="button" onClick={() => scrollCarousel(1)} aria-label={`Show more ${label}`}>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9.5 4.5 7.5 7.5-7.5 7.5" /></svg>
           </button>
         </div>
       )}
