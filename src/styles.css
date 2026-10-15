@@ -962,7 +962,7 @@ svg {
 
 .explorer-carousel__controls button {
   position: absolute;
-  top: 50%;
+  top: 140px;
   display: grid;
   width: 3.2rem;
   height: 3.2rem;
