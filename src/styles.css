@@ -940,7 +940,7 @@ svg {
   scroll-behavior: smooth;
   scroll-padding-inline: 3px;
   scroll-snap-type: x mandatory;
-  scrollbar-color: var(--line-strong) transparent;
+  scrollbar-color: var(--ink-muted) transparent;
   scrollbar-width: thin;
 }
 
@@ -961,10 +961,10 @@ svg {
   width: 2.25rem;
   height: 2.25rem;
   place-items: center;
-  border: 1px solid var(--button-border);
+  border: 1px solid var(--ink-muted);
   border-radius: 50%;
   background: var(--surface-strong);
-  color: var(--gold);
+  color: var(--ink);
   cursor: pointer;
   font-size: 1.15rem;
   line-height: 1;
