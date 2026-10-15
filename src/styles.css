@@ -956,6 +956,10 @@ svg {
   pointer-events: none;
 }
 
+.explorer-carousel--mobile .explorer-carousel__controls {
+  display: none;
+}
+
 .explorer-carousel__controls button {
   position: absolute;
   top: 50%;
@@ -1212,6 +1216,26 @@ a:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.1rem;
   }
+
+  .explorer-composition.explorer-composition--mobile-carousel {
+    display: flex;
+    overflow-x: auto;
+    padding: 3px 3px 1rem;
+    scroll-behavior: smooth;
+    scroll-padding-inline: 3px;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--ink-muted) transparent;
+    scrollbar-width: thin;
+  }
+
+  .explorer-composition--mobile-carousel .explorer-panel {
+    flex: 0 0 min(84%, 350px);
+    scroll-snap-align: start;
+  }
+
+  .explorer-carousel--mobile .explorer-carousel__controls {
+    display: block;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1252,6 +1276,7 @@ a:focus-visible {
 
   .explorer-composition--carousel .explorer-panel {
     flex-basis: min(84%, 350px);
+    scroll-snap-align: start;
   }
 
   .explorer-carousel__controls button {

@@ -296,6 +296,7 @@ export default function App() {
           items={productExplorers}
           label="Open Data Insights products"
           columns="two"
+          mobileCarousel
         />
 
         <section className="insight-section" aria-labelledby="constituency-heading">
@@ -311,6 +312,7 @@ export default function App() {
             items={constituencyInsights}
             label="Constituency Insights collection"
             columns="two"
+            mobileCarousel
           />
         </section>
 
@@ -386,9 +388,10 @@ function PortfolioFeature({ explorer }) {
   );
 }
 
-function CardGrid({ items, label, columns = "three" }) {
+function CardGrid({ items, label, columns = "three", mobileCarousel = false }) {
   const carouselRef = useRef(null);
   const isCarousel = columns === "carousel";
+  const usesCarousel = isCarousel || mobileCarousel;
 
   const scrollCarousel = (direction) => {
     const carousel = carouselRef.current;
@@ -397,10 +400,10 @@ function CardGrid({ items, label, columns = "three" }) {
   };
 
   return (
-    <section className={isCarousel ? "explorer-carousel" : ""} aria-label={label}>
+    <section className={usesCarousel ? `explorer-carousel${mobileCarousel ? " explorer-carousel--mobile" : ""}` : ""} aria-label={label}>
       <div
-        ref={isCarousel ? carouselRef : null}
-        className={`explorer-composition explorer-composition--${columns}`}
+        ref={usesCarousel ? carouselRef : null}
+        className={`explorer-composition explorer-composition--${columns}${mobileCarousel ? " explorer-composition--mobile-carousel" : ""}`}
       >
         {items.map((explorer) => (
           <a
@@ -425,7 +428,7 @@ function CardGrid({ items, label, columns = "three" }) {
           </a>
         ))}
       </div>
-      {isCarousel && (
+      {usesCarousel && (
         <div className="explorer-carousel__controls" aria-label={`${label} carousel controls`}>
           <button className="explorer-carousel__previous" type="button" onClick={() => scrollCarousel(-1)} aria-label={`Show previous ${label}`}>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m14.5 4.5-7.5 7.5 7.5 7.5" /></svg>
